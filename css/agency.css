@@ -265,7 +265,7 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url(../img/me.jpg);
+    background-image: url(../img/me6.jpg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -284,6 +284,7 @@ header .intro-text .intro-lead-in {
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 30px;
     line-height: 22px;
+    color: white;
 }
 
 header .intro-text .intro-heading {
@@ -292,6 +293,8 @@ header .intro-text .intro-heading {
     font-size: 30px;
     font-style: italic;
     line-height: 22px;
+    color: white;
+
 }
 
 @media(min-width:768px) {
@@ -356,6 +359,7 @@ section h3.section-subheading {
     position: relative;
     margin: 0 auto;
     max-width: 400px;
+    max-height: 200px;
 }
 
 #portfolio .portfolio-item .portfolio-link .portfolio-hover {
