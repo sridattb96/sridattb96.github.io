@@ -242,6 +242,27 @@ a:hover {
 	}
 }
 
+@media (max-width: 875px) {
+	.exp-ele {
+		width: 100%;
+		height: 700px;
+	}
+
+	.exp-ele > img {
+		width: 150px;
+	}
+
+	.exp-duration {
+		margin-bottom: 30px;
+	}
+
+	.exp-description {
+		margin: 0 auto;
+		width: 80%;
+	}
+
+}
+
 @media (max-width: 725px) {
 	.title {
 		font-size: 55px;
@@ -275,26 +296,5 @@ a:hover {
 	.exp-ele {
 		width: 100vw;
 	}
-}
-
-@media (max-width: 875px) {
-	.exp-ele {
-		width: 100%;
-		height: 700px;
-	}
-
-	.exp-ele > img {
-		width: 150px;
-	}
-
-	.exp-duration {
-		margin-bottom: 30px;
-	}
-
-	.exp-description {
-		margin: 0 auto;
-		width: 80%;
-	}
-
 }
 

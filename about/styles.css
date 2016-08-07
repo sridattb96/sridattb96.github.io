@@ -50,11 +50,9 @@ a:hover {
 }
 
 #main-img {
-	display: inline-block;
-	margin-left: 100px;
-	margin-top: 200px;
+	margin-left: 10%;
 	width: 450px;
-	opacity: 0;
+	margin-top: 135px;
 }
 
 .info {
@@ -77,8 +75,7 @@ a:hover {
 	float: left;
 	font-family: 'Muli', sans-serif;
 	font-size: 15px;
-/*	font-style: italic;
-*/	text-align: justify;
+	text-align: justify;
 	letter-spacing: .5px;
 	line-height: 30px;
 	opacity: 0;
@@ -87,11 +84,6 @@ a:hover {
 .description > a {
 	color: white;
 }
-
-/*.description > a:hover {
-	background-color: #CB9FF3;
-	color: white;
-}*/
 
 .footer {
 	width: 100%;
@@ -132,4 +124,53 @@ a:hover {
 
 #email {
 	width: 30px;
+}
+
+@media (max-width: 1150px) {
+	#main-img {
+		width: 300px;
+		margin-top: 200px;
+
+	}
+	.title {
+		font-size: 55px;
+	}
+
+	.description {
+		font-size: 15px;
+	}
+}
+
+
+@media (max-width: 725px) {
+	#main-img {
+		margin: 0 auto;
+		display: block;
+		width: 400px;
+		margin-top: 135px;
+	}
+
+	.title {
+		font-size: 45px;
+		margin-top: 20px;
+	}
+
+	.info {
+		margin-left: 0;
+		margin-right: 0;
+		text-align: center;
+		margin-top: 0px;
+		width: 100vw;
+	}
+
+	.description {
+		margin: 0 auto;
+		text-align: justify;
+		width: 100%;
+		padding-bottom: 20px;
+	}
+
+	.footer {
+		position: relative;
+	}
 }
