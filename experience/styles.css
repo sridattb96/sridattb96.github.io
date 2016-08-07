@@ -46,8 +46,8 @@ body {
 }
 
 .nav > a:hover:before {
-color: white;
-text-decoration: none;
+color: white !important;
+text-decoration: none !important;
 
   visibility: visible;
   -webkit-transform: scaleX(1);
