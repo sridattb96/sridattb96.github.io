@@ -296,5 +296,16 @@ a:hover {
 	.exp-ele {
 		width: 100vw;
 	}
+
+	.nav > a {
+		margin: 0 auto;
+		text-align: center;
+		width: 50%;
+	}
+
+	.nav {
+		color: transparent;
+		padding-bottom: 50px;
+	}
 }
 

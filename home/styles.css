@@ -159,4 +159,15 @@ a:hover {
 		width: 400px;
 		margin-top: 150px;
 	}
+
+	.nav > a {
+		margin: 0 auto;
+		text-align: center;
+		width: 50%;
+	}
+
+	.nav {
+		color: transparent;
+		padding-bottom: 50px;
+	}
 }

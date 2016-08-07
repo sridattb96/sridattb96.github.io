@@ -300,6 +300,17 @@ a:hover {
 		text-align: center;
 	}
 
+	.nav > a {
+		margin: 0 auto;
+		text-align: center;
+		width: 50%;
+	}
+
+	.nav {
+		color: transparent;
+		padding-bottom: 50px;
+	}
+
 
 }
 
