@@ -1,0 +1,305 @@
+body {
+	background-color: #E47A87;
+	margin: 0 0 0 0;
+	font-family: 'Muli', sans-serif;
+}
+
+.nav {
+	height: 50px;
+	margin: 0 auto;
+	text-align: center;
+	color: white;
+}
+
+.nav > a {
+	display: inline-block;
+	line-height: 50px;
+	color: white;
+	padding-left: 30px;
+	padding-right: 30px;
+	letter-spacing: .5px;
+	font-weight: 100;
+	font-size: 15px;
+	text-decoration: none;
+	position: relative;
+}
+
+.nav > a:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -3px;
+  left: 0;
+  background-color: white;
+  visibility: hidden;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.2s ease-in-out 0s;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+.nav > a:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+a:hover {
+	cursor: pointer;
+}
+
+#main-img {
+	display: inline-block;
+	margin-left: 400px;
+	margin-top: 180px;
+	width: 150px;
+	opacity: 0;
+}
+
+.info {
+	display: inline-block;
+	width: 50%;
+	margin-top: 200px;
+	float: right;
+}
+
+.title {
+	color: white;
+	font-family: 'Muli', sans-serif;
+	font-size: 65px;
+	opacity: 0;
+}
+
+.description {
+	width: 75%;
+	color: white;
+	float: left;
+	font-family: 'Muli', sans-serif;
+	font-size: 15px;
+	font-style: italic;
+	letter-spacing: .5px;
+	opacity: 0;
+}
+
+.footer {
+	width: 100%;
+	height: 50px;
+	position: absolute;
+	bottom: 0;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.icons {
+	height: 50px;
+	position: relative;
+	display: inline-block;
+}
+
+.icons > a > img {
+	margin-top: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.icons > img:hover {
+	cursor: pointer;
+}
+
+#fb {
+	width: 12px;
+}
+
+#insta {
+	width: 22px;
+}
+
+#linkedin {
+	width: 25px;
+}
+
+#email {
+	width: 30px;
+}
+
+.main {
+	display: block;
+	height: 100vh;
+}
+
+.content {
+	display: block;
+	background-color: white;
+	height: 1500px;
+	position: relative;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.proj-ele {
+	background-color: white;
+	width: 100%;
+	height: 400px;
+	float: left;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.proj-info {
+	display: inline-block;
+	text-align: left;
+	width: 50%;
+	height: auto;
+}
+
+.proj-title, .proj-caption, .proj-description, .tools {
+	padding-left: 100px;
+}
+
+.proj-title {
+	color: #282828;
+	font-size: 30px;
+	font-family: 'Montserrat', sans-serif;
+	margin-top: 40px;
+}
+
+.proj-caption {
+	color: #525252;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 15px;
+	margin-left: 1px;
+	margin-bottom: 20px;
+}
+
+.proj-img {
+	line-height: 400px;
+	width: 50%;
+	height: 400px;
+	margin: auto;
+	display: block;
+	text-align: center;
+}
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
+
+.proj-img > img {
+	width: 450px;
+	height: 300px;
+	vertical-align: middle;
+	max-width: 450px;
+    border: 1px solid gray;
+}
+
+.proj-description {
+	width: 70%;
+	line-height: 25px;
+	margin-bottom: 20px;
+	text-align: justify;
+}
+
+.tools > li {
+	display: inline-block;
+	padding: 5px 10px 5px 10px;
+	margin-top: 5px;
+	border: 1px #E47A87 solid;
+	border-radius: 25px;
+	color: #E47A87;
+	transition: all 200ms ease-out;
+	font-size: 15px;
+	margin-right: 5px;
+}
+
+.tools > li:hover {
+	background-color: #E47A87;
+	color: white;
+	transition: all 200ms ease-in;
+}
+
+@media (max-width: 1125px) {
+	.title {
+		font-size: 60px;
+	}
+
+	#main-img {
+		margin-left: 30%;
+		width: 150px;
+	}
+}
+
+@media (max-width: 900px) {
+	.proj-info, .proj-title, .proj-caption, .proj-description{
+		padding-left: 25px;
+	}
+}
+
+
+@media (max-width: 750px) {
+	.info {
+		width: 100vw;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.description {
+		width: 100vw;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.title {
+		font-size: 50px;
+		margin-top: 0px;
+		padding-top: 20px;
+	}
+
+	#main-img {
+		margin: 0 auto;
+		display: block;
+		width: 100px;
+		margin-top: 150px;
+	}
+
+	.proj-ele {
+		height: 800px;
+	}
+
+	.proj-img {
+		display: block;
+		width: 100%;
+	}
+
+	.proj-info {
+		margin-left: 0px;
+		padding-left: 0px;
+		display: block;
+		width: 100%;
+	}
+
+	.proj-info, .proj-title, .proj-caption, .proj-description, .tools {
+		margin: 0 auto;
+		margin-top: 20px;
+		text-align: center;
+		padding-left: 0px;
+	}
+
+	.proj-description {
+		text-align: justify;
+	}
+
+
+	.content {
+		margin: 0 auto;
+		text-align: center;
+	}
+
+
+}
+
