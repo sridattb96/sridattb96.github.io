@@ -8,12 +8,15 @@
 
 #scoreBoard, #gameover, #insideTriangle, #fly, #coinBoard	{
 	fill:#FEFFAA;
-	font-family: "Century Gothic";
+	/*font-family: "Century Gothic";*/
+	font-family: 'Hind', sans-serif;
 
 }
 
 #score, #gameOverMsg, #finalscore, #medalText, #medalType, #newgameText, #coinNum, #finalcoins, #instructions{
-	font-family: "Century Gothic";
+	/*font-family: "Century Gothic";*/
+	font-family: 'Hind', sans-serif;
+
 }
 
 #gameOverMsg, #medalText{
@@ -29,7 +32,8 @@
 }
 
 #fly, #start {
-	font-family: "Century Gothic";
+	/*font-family: "Century Gothic";*/
+	font-family: 'Hind', sans-serif;
 	color:#000000;
 }
 
