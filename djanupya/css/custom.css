@@ -51,10 +51,10 @@
 }
 
 .spine {
-    background-color: black;
-        opacity: .3;
+    background-color: black !important;
+        opacity: .3 !important;
         width: 25px !important;
-    background: linear-gradient(to right, rgba(0,0,0,1), rgba(255,0,0,0))
+    background: linear-gradient(to right, rgba(0,0,0,1), rgba(255,0,0,0)) !important;
 }
 
 .sticker {
