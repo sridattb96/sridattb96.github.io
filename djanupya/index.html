@@ -27,7 +27,7 @@
 			<div class="main">
 				<div id="bookshelf" class="bookshelf">
 					<figure>
-						<div class="book" data-book="book-2">
+						<div class="book my-book" data-book="book-2">
 						</div>
 						<div class="buttons"><a href="#">Open</a></div>
 						<figcaption><h2 id="book-title"> (sound on) </h2></figcaption>
@@ -112,10 +112,10 @@
 
 		var musicPlaying = false;
 		
-		// $(".book").empty();
-		// $(".book").append($('<div class="my-cover"></div>'));
-		// $(".book").append($('<div class="spine"></div>'));
-		// $(".book").append($('<div class="sticker"> The Adventures of Sridatt & Anupya </div>'));
+		$(".book").empty();
+		$(".book").append($('<div class="my-cover"></div>'));
+		$(".book").append($('<div class="spine"></div>'));
+		$(".book").append($('<div class="sticker"> The Adventures of Sridatt & Anupya </div>'));
 
 		$(".buttons").on('click', function(){
 			if (!musicPlaying){
