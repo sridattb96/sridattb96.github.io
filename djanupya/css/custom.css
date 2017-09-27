@@ -43,10 +43,10 @@
 
 
 .my-cover {
-    position: absolute;
-    bottom: 0;
+    position: absolute !important;
+    bottom: 0 !important;
     height: 35% !important;
-    background-color: #E098BF;
+    background-color: #E098BF !important;
 
 }
 
