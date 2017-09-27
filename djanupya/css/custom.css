@@ -1,11 +1,27 @@
 
 
-#book-title {
+#page-title, #book-title, .sticker {
 	font-family: 'Indie Flower', cursive;
 }
 
+#page-title {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 70px;
+    padding-top: 30px;
+}
+
+.fa-heart {
+    color: #E098BF;
+}
+
+.book {
+    box-shadow: 0px 3px 8px 0px #b2b2b2;
+}
+
 .mockup {
-	box-shadow: 3px 3px 3px #b2b2b2;
+	box-shadow: 0px 3px 8px 0px #b2b2b2;
 	margin: auto;
     /* display: block; */
     position: absolute;
@@ -19,3 +35,46 @@
 	top: auto !important;
 	bottom: 20px !important;
 }
+
+.front , .book {
+    background-color: pink !important;
+}
+
+
+
+.my-cover {
+    position: absolute;
+    bottom: 0;
+    height: 35% !important;
+    background-color: #E098BF;
+
+}
+
+.spine {
+    background-color: black;
+        opacity: .3;
+        width: 25px !important;
+    background: linear-gradient(to right, rgba(0,0,0,1), rgba(255,0,0,0))
+}
+
+.sticker {
+    background-color: #fbfbf1;
+    position: absolute;
+    margin: auto;
+    display: block;
+    top: 50px;
+    left: 0;
+    right: 0;    
+    width: 65% !important;
+    height: 100px !important;
+    border: 1px solid gray;
+        padding-top: 10px;
+}
+
+#memories {
+    position: absolute !important;
+    top: 100px !important;
+    font-size: 50px !important;
+}
+
+

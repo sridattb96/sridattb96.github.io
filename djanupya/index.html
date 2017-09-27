@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-		<title>Book Preview with BookBlock</title>
+		<title>Anupya's Bday</title>
 		<meta name="description" content="Book Preview with BookBlock" />
 		<meta name="keywords" content="BookBlock, book preview, look inside, css, transforms, animations, css3, 3d, perspective, fullscreen" />
 		<meta name="author" content="Codrops" />
@@ -15,19 +15,22 @@
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
 		<link rel="stylesheet" type="text/css" href="css/custom.css" />
 		<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="js/modernizr.custom.js"></script>
 	</head>
 	<body style="position:fixed;">
 		<header>
-			<div id="title"> Happy Birthday Anupya </div>
+			<div id="page-title"> Happy Birthday Anupya  <i class="fa fa-heart" aria-hidden="true"></i> </div>
 		</header>
 		<div id="scroll-wrap" class="container">
 			<div class="main">
 				<div id="bookshelf" class="bookshelf">
 					<figure>
-						<div class="book" data-book="book-2"></div>
+						<div class="book" data-book="book-2">
+						</div>
 						<div class="buttons"><a href="#">Open</a></div>
-						<figcaption><h2 id="book-title">The Adventures of Sridatt & Anupya</h2></figcaption>
+						<figcaption><h2 id="book-title"> (sound on) </h2></figcaption>
 						<div class="details">
 							<ul>
 								<li>Understanding the life of a worm can be enlightening to anybody. Dive into the micro cosmos of a creeping and burrowing invertebrate and learn how a limbless little creature reaches happiness.</li>
@@ -45,12 +48,14 @@
 			<div class="bb-bookblock">
 				<div class="bb-item">
 					<div class="bb-custom-side page-layout-3">
-						<div>
-							<h3>Portraits</h3>
-							<p>Photography (1999 &ndash; 2013)</p>
+						<div id="memories-wrapper"> 
+							<!-- <h3 id="memories">Memories</h3> -->
+							<!-- <p>Photography (1999 &ndash; 2013)</p> -->
 						</div>
 					</div>
-					<div class="bb-custom-side page-layout-3">
+					<div class="bb-custom-side page-layout-1">
+						<h3 id="memories">Memories</h3>
+						<img class="mockup" width="90%" height="auto" src="designs/couple_shot.png">
 					</div>
 				</div>
 				<div class="bb-item">
@@ -79,10 +84,17 @@
 				</div>
 				<div class="bb-item">
 					<div class="bb-custom-side page-layout-1">
-						<img class="mockup" width="90%" height="auto" src="designs/bridge.png">
+						<img class="mockup" width="90%" height="auto" src="designs/hotel.png">
 					</div>
 					<div class="bb-custom-side page-layout-1">
-						<p>This is one of my first memories with you, and one of my most favorite. We went to Shlok’s place to turn up one night, and that’s also when I met a lot of your friends. We both had a good time and a couple of drinks, and finally headed back to your place. We were pretty tipsy and super lovey-dovey as we crossed the bridge over 113, and I miss that moment so so much. I still think of the way you smiled at me that night and I die on the inside every time. </p>
+						<p>I can't even explain how much fun I had on this trip, I would go over and over again. To all the dinner dates to cool movie secrets, to the Wizarding World that totally surpassed my expectations, I would choose to do it with you over anyone else. This is just our first of many bougie trips that we'll take together, and I can't wait til the next one. Even though there were ups and downs that weekend, I knew deep down at every moment that there's no one else I'd rather be with. </p>
+					</div>
+				</div>
+				<div class="bb-item">
+					<div class="bb-custom-side page-layout-1">
+					</div>
+					<div class="bb-custom-side page-layout-1">
+						<p> I love you, and happy birthday :) thanks for being my special girl. But wait, I'm not done. Check under Shar's bed for your birthday present </p>
 					</div>
 				</div>
 			</div><!-- /bb-bookblock -->
@@ -96,4 +108,24 @@
 		<script src="js/classie.js"></script>
 		<script src="js/bookshelf.js"></script>
 	</body>
+	<script type="text/javascript">
+
+		var musicPlaying = false;
+		
+		$(".book").empty();
+		$(".book").append($('<div class="my-cover"></div>'));
+		$(".book").append($('<div class="spine"></div>'));
+		$(".book").append($('<div class="sticker"> The Adventures of Sridatt & Anupya </div>'));
+
+
+
+		$(".buttons").on('click', function(){
+			if (!musicPlaying){
+				var audio = new Audio('pani-da-rang.mp3');
+				audio.play();
+				musicPlaying = true;
+			} 
+		})
+
+	</script>
 </html>
