@@ -1,0 +1,21 @@
+
+
+#book-title {
+	font-family: 'Indie Flower', cursive;
+}
+
+.mockup {
+	box-shadow: 3px 3px 3px #b2b2b2;
+	margin: auto;
+    /* display: block; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.bb-nav-prev, .bb-nav-next {
+	top: auto !important;
+	bottom: 20px !important;
+}
