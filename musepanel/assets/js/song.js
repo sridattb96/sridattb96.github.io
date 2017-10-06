@@ -66,7 +66,7 @@ function recordSongHit(song, artist) {
 
 $(document).ready(function(){
 
-	$("#back").attr("href", window.location.origin);
+	$("#back").attr("href", window.location.origin + "/musepanel/");
 
 	if (localStorage.getItem("songTable")){
 		songTable = JSON.parse(localStorage.getItem("songTable"));
