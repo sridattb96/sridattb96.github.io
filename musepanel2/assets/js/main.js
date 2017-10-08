@@ -18,6 +18,7 @@ var keyToRank = {
 }
 
 $(document).ready(function(){
+
 	$.getJSON("http://spreadsheets.google.com/feeds/list/19jOfDa3ZK9DOsowIwtMc0j9FjjqFx4VVaGSdseRKI6s/od6/public/values?alt=json", function(data) {
 
  		var source = [];
@@ -72,20 +73,11 @@ $(document).ready(function(){
 	        select: function(event, ui) {
 	        	event.preventDefault();
 	        	window.location.href += "song?title=" + ui.item.value + "&artist=" + ui.item.artist;
-	        },
-	        response: function(event, ui) {
-	        	if (ui.content.length === 0) {
-	                $("#empty-message").show();
-	            } else {
-	            	$("#empty-message").hide();
-	            }
 	        }
 		}).data("ui-autocomplete")._renderItem = function (ul, item) {
 			var resultTemplate = "<span style='color:#76C51F;'>%s</span>";
 			var inp = properCaps(item.value, $("#songSearch").val().toLowerCase());
-			item.value = shorten(item.value, 40);
 			var newTitle = item.value.replace(inp, resultTemplate.replace('%s', inp));
-			// console.log(newTitle);
 
 		    return $("<li class='song-panel'></li>")
 		       		.data("ui-autocomplete-item", item)
@@ -95,23 +87,13 @@ $(document).ready(function(){
 		           .appendTo(ul);
 		};
 	}
-
-	$("#songSearch").keyup(function(){
-		if ($(this).val() == ""){
-			$("#empty-message").hide();
-		}
-	})
-
-	function shorten(str, maxLength){
-		return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
-	}
 	
 	function properCaps(song, inp){
 		return song.substr(song.toLowerCase().indexOf(inp), inp.length)
 	}
 
 	function hashSong(song, artist){
-		return (song + "-" + artist).split(' ').join('');
+		return song.split(' ').join('') + "-" + artist.split(' ').join('');
 	}
 
 	function spellKey(key){

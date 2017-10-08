@@ -46,7 +46,6 @@ var keyToRank = {
 
 var songRecs;
 var songObj;
-var pageLoaded = false;
 
 function recordSongHit(song, artist) {
 	var hash = hashSong(song, artist);
@@ -66,13 +65,13 @@ function recordSongHit(song, artist) {
 }
 
 $(document).ready(function(){
+
 	$("#back").attr("href", window.location.origin + "/musepanel/");
 
 	if (localStorage.getItem("songTable")){
 		songTable = JSON.parse(localStorage.getItem("songTable"));
 		keyTable = JSON.parse(localStorage.getItem("keyTable"));
 		initPage();
-		pageLoaded = true;
 	} else {
 		$.getJSON("http://spreadsheets.google.com/feeds/list/19jOfDa3ZK9DOsowIwtMc0j9FjjqFx4VVaGSdseRKI6s/od6/public/values?alt=json", function(data) {
 
@@ -117,11 +116,6 @@ $(document).ready(function(){
 		openLink(this.id.split('-')[1]);
 	})
 
-	$("#diff-select").on('change', function(){
-		$("#rec-section").empty();
-		setTimeout(initPage, 100);
-	})
-
 });
 
 function openLink(mp3Type){
@@ -141,23 +135,17 @@ function openLink(mp3Type){
 }
 
 function initPage(){
-	if (!pageLoaded){
-		songObj = getSongObj(); // get from param
-		console.log(songObj);
+	songObj = getSongObj(); // get from param
 
-		recordSongHit(songObj["title"], songObj["artist"]); // record view 
+	recordSongHit(songObj["title"], songObj["artist"]); // record view 
 
-		document.title = "MusePanel - " + songObj["title"];
-		$("#song-title").html(songObj["title"]);
-		$("#song-artist").html(songObj["artist"]);
-		$("#song-key").html(songObj["key"]);
-
-		embedYoutubeVid(songObj);
-	}
+	$("#song-title").html(songObj["title"]);
+	$("#song-artist").html(songObj["artist"]);
+	$("#song-key").html(songObj["key"]);
 
 	var rank = songObj["rank"];
 	var keyType = songObj["keyType"];
-	var songs = getSongs(songObj["note"], keyType, $("#diff-select").val());
+	var songs = getSongs(songObj["note"], keyType, 1);
 
 	// get songs of relative major/minor
 	if (keyType == "minor")
@@ -165,27 +153,8 @@ function initPage(){
 	else
 		songs = songs.concat(getSongs(rankToKey[convertRank(rank - 1.5)], "minor", 0));
 
-	songs = shuffle(songs);
 	fillRecommendations(songs);
-}
-
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
+	embedYoutubeVid(songObj);
 }
 
 function embedYoutubeVid(songObj){
@@ -198,17 +167,13 @@ function embedYoutubeVid(songObj){
 
 function fillRecommendations(songs){
 	for (var i = 0; i < 12; i++){
-		if (songObj["title"] != songs[0]["title"] && songObj["artist"] != songs[0]["artist"])
-			$("#rec-section").append(getSongPanel(songs[0]));
-		else
-			i -= 1;
+		$("#rec-section").append(getSongPanel(songs[0]));
 		songs.push(songs.shift());
 	}
 	songRecs = songs;
 }
 
 function findKeyDifference(key, keyType){
-	// find the difference in key between song and recommended song
 	var currSongRank = songObj["rank"];
 	var recSongRank = keyToRank[key.split(" ")[0]];
 
@@ -237,7 +202,7 @@ function findKeyDifference(key, keyType){
 }
 
 function closerHigher(recSongRank, currSongRank){
-	// tells you whether the recommended song is closer in higher steps
+	// tells you whether the recommended song is closer in higher steps 
 	if (currSongRank > recSongRank)
 		return (currSongRank - recSongRank) > (6 - currSongRank + recSongRank);
 	return (recSongRank - currSongRank) < (6 - recSongRank + currSongRank);
@@ -248,15 +213,11 @@ function getSongPanel(song){
 	var info = findKeyDifference(song["key"], song["keyType"]);
 	return $("<a href='" + href + "' class='song-wrapper'></a>")
 			.append($("<div class='song-item'></div>")
-	       		.append("<div class='song-title'>" + shorten(song["title"], 20) + "</div>")
+	       		.append("<div class='song-title'>" + song["title"] + "</div>")
 	       		.append("<div class='song-info'>" + info + "</div>")
 	       		.append("<div class='song-key'>" + song["key"] + "</div>")
 	       		.append("<div class='song-artist'>" + song["artist"] + "</div>")
 	       	)
-}
-
-function shorten(str, maxLength){
-	return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
 }
 
 function getSongs(note, keyType, diff){
@@ -301,11 +262,12 @@ function getSongObj(){
 	var search = location.search.substring(1);
 	var params = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
 	                 function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
+
 	return songTable[hashSong(params["title"], params["artist"])];
 }
 
 function hashSong(song, artist){
-	return (song + "-" + artist).split(' ').join('');
+	return song.split(' ').join('') + "-" + artist.split(' ').join('');
 }
 
 function spellKey(key){

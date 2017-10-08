@@ -131,10 +131,3 @@ footer {
 #mp-logo {
 	transform: translate(-10px, 10px);
 }
-
-#empty-message {
-	margin-top: 20px;
-    font-size: 20px;
-    color: #76C51F;
-    display: none;
-}
