@@ -211,6 +211,7 @@ iframe {
 	cursor: pointer;
 	box-shadow: none;
 	transition: .1s ease-in ;
+	background-color: #6ab11b;
 }
 
 
@@ -231,6 +232,7 @@ iframe {
 
 #diff-select:hover {
 	cursor: pointer;
+	background-color: #737373;
 }
 
 select {
@@ -271,5 +273,6 @@ select {
 	cursor: pointer;
 	box-shadow: none;
 	transition: .1s ease-in ;
+	background-color: #737373;
 }
 
