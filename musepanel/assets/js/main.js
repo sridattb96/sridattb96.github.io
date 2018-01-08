@@ -84,6 +84,29 @@ $(document).ready(function(){
 
 	}
 
+	function resetAddSongModal(){
+		
+		// header
+		$("#addSongModalTitle").text('Add a Song');
+
+		// body
+		$(".modal-body").show();
+		$("#song-input").val("");
+		$("#artist-input").val("");
+		$("#key-select").val('C');
+		$("#interval-select").val('Major');
+
+		// footer
+		$(".modal-footer").show();
+		$("#cancel-modal").show();
+		$("#add-song-button").show();
+		$("#add-song-button").text("Add Song");
+	}
+
+	$("#addsong-caption > a").click(function(){
+		resetAddSongModal();
+	})
+
 	$("#add-song-button").click(function(){
 
 		var song = $("#song-input").val();

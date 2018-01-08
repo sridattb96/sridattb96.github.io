@@ -74,38 +74,6 @@ $(document).ready(function(){
 		initPage();
 		pageLoaded = true;
 	} else {
-		// $.getJSON("http://spreadsheets.google.com/feeds/list/19jOfDa3ZK9DOsowIwtMc0j9FjjqFx4VVaGSdseRKI6s/od6/public/values?alt=json", function(data) {
-	 // 		data.feed.entry.map(function(obj){
-	 // 			var songTitle = obj["gsx$song"]["$t"];
-	 // 			var songKey = spellKey(obj["gsx$key"]["$t"]);
-	 // 			var songArtist = obj["gsx$artist"]["$t"];
-	 // 			var songNote = songKey.split(" ")[0];
-	 // 			var songKeyType = songKey.split(" ")[0];
-	 // 			var songRank = keyToRank[note];
-
-	 // 			if (artist.length > 0){
-		//  			var hash = hashSong(song, artist);
-
-		//  			songTable[hash] = {
-		//  				title: songTitle, 
-		//  				artist: songArtist,
-		//  				key: songKey,
-		//  				note: songNote,
-		//  				keyType: songKeyType,
-		//  				rank: songRank
-		//  			}
-
-		//  			if (!(songKey in songKeyType)) keyTable[songKey] = [];
-		//  			keyTable[songKey].push(hash);
-
-		//  			localStorage.setItem("songTable", JSON.stringify(songTable));
-		//  			localStorage.setItem("keyTable",  JSON.stringify(keyTable));
-		//  		}
-	 // 		})
-
-	 // 		initPage();
-		// });
-
 		firebase.database().ref('songdb/').once('value').then(function(snapshot) {
 			var allSongs = snapshot.val();
 
@@ -158,7 +126,7 @@ $(document).ready(function(){
 });
 
 function openLink(mp3Type){
-	var link = "http://www.instamp3.audio/download/";
+	var link = "http://www.instamp3.tv/download/";
 	var query = songObj["title"] + " " + songObj["artist"];
 	if (mp3Type == 'instrumental') 
 		query += " instrumental";
