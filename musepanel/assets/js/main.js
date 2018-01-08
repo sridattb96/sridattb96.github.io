@@ -32,77 +32,9 @@ var keyToRank = {
 var source = [];
 
 $(document).ready(function(){
-
 	retrieveFirebaseData();
 
-	function retrieveFirebaseData(){
-		firebase.database().ref('songdb/').once('value').then(function(snapshot) {
-			var allSongs = snapshot.val();
-
-			if (localStorage.getItem("songTable")){
-				songTable = JSON.parse(localStorage.getItem("songTable"));
-				keyTable = JSON.parse(localStorage.getItem("keyTable"));
-			}
-
-			for (var key in allSongs){
-				initDataObjects(allSongs[key].song, allSongs[key].artist, allSongs[key].key, allSongs[key].note, allSongs[key].keyType);
-			}
-
-			localStorage.setItem("songTable", JSON.stringify(songTable));
-			localStorage.setItem("keyTable",  JSON.stringify(keyTable));
-
-			initAutocomplete(source);
-		});
-	}
-
-
-	function initDataObjects(song, artist, key, note, keyType){
-		var rank = keyToRank[note];
-
-		source.push({
-			value: song, 
-			artist: artist,
-			key: key
-		});
-
-		var hash = hashSong(song, artist);
-
-		songTable[hash] = {
-			title: song, 
-			artist: artist,
-			key: key,
-			note: note,
-			keyType: keyType,
-			rank: rank
-		}
-
-		if (!(key in keyTable)){
-			keyTable[key] = [];
-		}
-
-		keyTable[key].push(hash);
-
-	}
-
-	function resetAddSongModal(){
-		
-		// header
-		$("#addSongModalTitle").text('Add a Song');
-
-		// body
-		$(".modal-body").show();
-		$("#song-input").val("");
-		$("#artist-input").val("");
-		$("#key-select").val('C');
-		$("#interval-select").val('Major');
-
-		// footer
-		$(".modal-footer").show();
-		$("#cancel-modal").show();
-		$("#add-song-button").show();
-		$("#add-song-button").text("Add Song");
-	}
-
+	// event handlers
 	$("#addsong-caption > a").click(function(){
 		resetAddSongModal();
 	})
@@ -127,13 +59,13 @@ $(document).ready(function(){
 			var keyType = $("#interval-select").val();
 
 			//add new song to firebase
-			firebase.database().ref('songdb/' + hash).once('value').then(function(snapshot) {
+			database.ref('songdb/' + hash).once('value').then(function(snapshot) {
 				$(".modal-body").hide(400);
 				$(".modal-footer").hide(400);
 				var url = "song?title=" + song + "&artist=" + artist;
 
 				if (snapshot.val() == null){
-					firebase.database().ref('songdb/' + hash).set({
+					database.ref('songdb/' + hash).set({
 				     	song: song,
 				     	key: key,
 				     	artist: artist,
@@ -153,59 +85,126 @@ $(document).ready(function(){
 		}
 	})
 
-	function initAutocomplete(source){
-		$("#songSearch").autocomplete({
-		    source: function(req, res) {
-	            var results = $.ui.autocomplete.filter(source, req.term);        
-	            res(results.slice(0, 5));
-	        },    
-	        select: function(event, ui) {
-	        	event.preventDefault();
-	        	window.location.href += "song?title=" + ui.item.value + "&artist=" + ui.item.artist;
-	        },
-	        response: function(event, ui) {
-	        	if (ui.content.length === 0) {
-	                $("#empty-message").show();
-	            } else {
-	            	$("#empty-message").hide();
-	            }
-	        }
-		}).data("ui-autocomplete")._renderItem = function (ul, item) {
-			var resultTemplate = "<span style='color:#76C51F;'>%s</span>";
-			var inp = properCaps(item.value, $("#songSearch").val().toLowerCase());
-			item.value = shorten(item.value, 40);
-			var newTitle = item.value.replace(inp, resultTemplate.replace('%s', inp));
-
-		    return $("<li class='song-panel'></li>")
-		       		.data("ui-autocomplete-item", item)
-		           .append("<div class='song-title'>" + newTitle + "</div>")
-		           .append("<div class='song-key'>" + item.key + "</div>")
-		           .append("<div class='song-artist'>" + item.artist + "</div>")
-		           .appendTo(ul);
-		};
-	}
-
 	$("#songSearch").keyup(function(){
 		if ($(this).val() == ""){
 			$("#empty-message").hide();
 		}
 	})
-
-	function shorten(str, maxLength){
-		return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
-	}
-	
-	function properCaps(song, inp){
-		return song.substr(song.toLowerCase().indexOf(inp), inp.length)
-	}
-
-	function hashSong(song, artist){
-		return (song + "-" + artist).split(' ').join('');
-	}
-
-	function spellKey(key){
-		return key.slice(0, -1) + (key[key.length-1] == key[key.length-1].toLowerCase() ? " minor" : " Major");
-	}
 });
+
+function retrieveFirebaseData(){
+	database.ref('songdb/').once('value').then(function(snapshot) {
+		var allSongs = snapshot.val();
+
+		if (localStorage.getItem("songTable")){
+			songTable = JSON.parse(localStorage.getItem("songTable"));
+			keyTable = JSON.parse(localStorage.getItem("keyTable"));
+		}
+
+		for (var key in allSongs){
+			initDataObjects(allSongs[key].song, allSongs[key].artist, allSongs[key].key, allSongs[key].note, allSongs[key].keyType);
+		}
+
+		localStorage.setItem("songTable", JSON.stringify(songTable));
+		localStorage.setItem("keyTable",  JSON.stringify(keyTable));
+
+		initAutocomplete(source);
+	});
+}
+
+function initDataObjects(song, artist, key, note, keyType){
+	var rank = keyToRank[note];
+
+	source.push({
+		value: song, 
+		artist: artist,
+		key: key
+	});
+
+	var hash = hashSong(song, artist);
+
+	songTable[hash] = {
+		title: song, 
+		artist: artist,
+		key: key,
+		note: note,
+		keyType: keyType,
+		rank: rank
+	}
+
+	if (!(key in keyTable)){
+		keyTable[key] = [];
+	}
+
+	keyTable[key].push(hash);
+
+}
+
+function resetAddSongModal(){
+	
+	// header
+	$("#addSongModalTitle").text('Add a Song');
+
+	// body
+	$(".modal-body").show();
+	$("#song-input").val("");
+	$("#artist-input").val("");
+	$("#key-select").val('C');
+	$("#interval-select").val('Major');
+
+	// footer
+	$(".modal-footer").show();
+	$("#cancel-modal").show();
+	$("#add-song-button").show();
+	$("#add-song-button").text("Add Song");
+}
+
+function initAutocomplete(source){
+	$("#songSearch").autocomplete({
+	    source: function(req, res) {
+            var results = $.ui.autocomplete.filter(source, req.term);        
+            res(results.slice(0, 5));
+        },    
+        select: function(event, ui) {
+        	event.preventDefault();
+        	window.location.href += "song?title=" + ui.item.value + "&artist=" + ui.item.artist;
+        },
+        response: function(event, ui) {
+        	if (ui.content.length === 0) {
+                $("#empty-message").show();
+            } else {
+            	$("#empty-message").hide();
+            }
+        }
+	}).data("ui-autocomplete")._renderItem = function (ul, item) {
+		var resultTemplate = "<span style='color:#76C51F;'>%s</span>";
+		var inp = properCaps(item.value, $("#songSearch").val().toLowerCase());
+		item.value = shorten(item.value, 40);
+		var newTitle = item.value.replace(inp, resultTemplate.replace('%s', inp));
+
+	    return $("<li class='song-panel'></li>")
+	       		.data("ui-autocomplete-item", item)
+	           .append("<div class='song-title'>" + newTitle + "</div>")
+	           .append("<div class='song-key'>" + item.key + "</div>")
+	           .append("<div class='song-artist'>" + item.artist + "</div>")
+	           .appendTo(ul);
+	};
+}
+
+function shorten(str, maxLength){
+	return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
+}
+
+function properCaps(song, inp){
+	return song.substr(song.toLowerCase().indexOf(inp), inp.length)
+}
+
+function hashSong(song, artist){
+	return (song + "-" + artist).split(' ').join('');
+}
+
+function spellKey(key){
+	return key.slice(0, -1) + (key[key.length-1] == key[key.length-1].toLowerCase() ? " minor" : " Major");
+}
 
 

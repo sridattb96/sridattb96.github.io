@@ -51,14 +51,14 @@ var pageLoaded = false;
 function recordSongHit(song, artist) {
 	var hash = hashSong(song, artist);
 
-	var countRef = firebase.database().ref('songs/' + hash + '/count');
+	var countRef = database.ref('songs/' + hash + '/count');
 	countRef.once('value').then(function(snapshot) {
 		if (snapshot.val() == null){
-			firebase.database().ref('songs/' + hash).set({
+			database.ref('songs/' + hash).set({
 		     	count: 1
 		    });
 		} else {
-			firebase.database().ref('songs/' + hash).update({
+			database.ref('songs/' + hash).update({
 				count: snapshot.val() + 1
 			});
 		}
@@ -74,7 +74,7 @@ $(document).ready(function(){
 		initPage();
 		pageLoaded = true;
 	} else {
-		firebase.database().ref('songdb/').once('value').then(function(snapshot) {
+		database.ref('songdb/').once('value').then(function(snapshot) {
 			var allSongs = snapshot.val();
 
 			for (var key in allSongs){
@@ -88,27 +88,7 @@ $(document).ready(function(){
 		});
 	}
 
-	function initDataObjects(song, artist, key, note, keyType){
-		var rank = keyToRank[note];
-
-		var hash = hashSong(song, artist);
-
-		songTable[hash] = {
-			title: song, 
-			artist: artist,
-			key: key,
-			note: note,
-			keyType: keyType,
-			rank: rank
-		}
-
-		if (!(key in keyTable)) keyTable[key] = [];
-		keyTable[key].push(hash);
-
-		localStorage.setItem("songTable", JSON.stringify(songTable));
-		localStorage.setItem("keyTable",  JSON.stringify(keyTable));
-	}
-
+	// event handlers
 	$("#refresh").on('click', function(){
 		$("#rec-section").empty();
 		fillRecommendations(songRecs);
@@ -124,6 +104,27 @@ $(document).ready(function(){
 	})
 
 });
+
+function initDataObjects(song, artist, key, note, keyType){
+	var rank = keyToRank[note];
+
+	var hash = hashSong(song, artist);
+
+	songTable[hash] = {
+		title: song, 
+		artist: artist,
+		key: key,
+		note: note,
+		keyType: keyType,
+		rank: rank
+	}
+
+	if (!(key in keyTable)) keyTable[key] = [];
+	keyTable[key].push(hash);
+
+	localStorage.setItem("songTable", JSON.stringify(songTable));
+	localStorage.setItem("keyTable",  JSON.stringify(keyTable));
+}
 
 function openLink(mp3Type){
 	var link = "http://www.instamp3.tv/download/";
@@ -144,7 +145,6 @@ function openLink(mp3Type){
 function initPage(){
 	if (!pageLoaded){
 		songObj = getSongObj(); // get from param
-		console.log(songObj);
 
 		recordSongHit(songObj["title"], songObj["artist"]); // record view 
 
