@@ -49,7 +49,7 @@ var songObj;
 var pageLoaded = false;
 
 function recordSongHit(song, artist) {
-	var hash = hashSong(song, artist);
+	var hash = utils.hashSong(song, artist);
 
 	var countRef = database.ref('songs/' + hash + '/count');
 	countRef.once('value').then(function(snapshot) {
@@ -108,7 +108,7 @@ $(document).ready(function(){
 function initDataObjects(song, artist, key, note, keyType){
 	var rank = keyToRank[note];
 
-	var hash = hashSong(song, artist);
+	var hash = utils.hashSong(song, artist);
 
 	songTable[hash] = {
 		title: song, 
@@ -249,16 +249,16 @@ function getSongPanel(song){
 	var info = findKeyDifference(song["key"], song["keyType"]);
 	return $("<a href='" + href + "' class='song-wrapper'></a>")
 			.append($("<div class='song-item'></div>")
-	       		.append("<div class='song-title'>" + shorten(song["title"], 20) + "</div>")
+	       		.append("<div class='song-title'>" + utils.shorten(song["title"], 20) + "</div>")
 	       		.append("<div class='song-info'>" + info + "</div>")
 	       		.append("<div class='song-key'>" + song["key"] + "</div>")
 	       		.append("<div class='song-artist'>" + song["artist"] + "</div>")
 	       	)
 }
 
-function shorten(str, maxLength){
-	return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
-}
+// function shorten(str, maxLength){
+// 	return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
+// }
 
 function getSongs(note, keyType, diff){
 	// ripple algorithm
@@ -278,8 +278,6 @@ function getSongs(note, keyType, diff){
 
 	return songs;
 }
-
-
 
 function pushSongs(songs, note){
 	if (note in keyTable){
@@ -302,14 +300,7 @@ function getSongObj(){
 	var search = location.search.substring(1);
 	var params = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
 	                 function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
-	return songTable[hashSong(params["title"], params["artist"])];
+	return songTable[utils.hashSong(params["title"], params["artist"])];
 }
 
-function hashSong(song, artist){
-	return (song + "-" + artist).split(' ').join('');
-}
-
-function spellKey(key){
-	return key.slice(0, -1) + (key[key.length-1] == key[key.length-1].toLowerCase() ? " minor" : " Major")
-}
 

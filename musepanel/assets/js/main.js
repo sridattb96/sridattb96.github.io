@@ -52,7 +52,7 @@ $(document).ready(function(){
 			$("#missing-fields").hide();
 			$("#add-song-button").text("Adding Song...");
 
-			var hash = hashSong(song, artist);
+			var hash = utils.hashSong(song, artist);
 
 			var key = $("#key-select").val() + " " + $("#interval-select").val();
 			var note = $("#key-select").val();
@@ -121,7 +121,7 @@ function initDataObjects(song, artist, key, note, keyType){
 		key: key
 	});
 
-	var hash = hashSong(song, artist);
+	var hash = utils.hashSong(song, artist);
 
 	songTable[hash] = {
 		title: song, 
@@ -141,7 +141,6 @@ function initDataObjects(song, artist, key, note, keyType){
 }
 
 function resetAddSongModal(){
-	
 	// header
 	$("#addSongModalTitle").text('Add a Song');
 
@@ -178,8 +177,8 @@ function initAutocomplete(source){
         }
 	}).data("ui-autocomplete")._renderItem = function (ul, item) {
 		var resultTemplate = "<span style='color:#76C51F;'>%s</span>";
-		var inp = properCaps(item.value, $("#songSearch").val().toLowerCase());
-		item.value = shorten(item.value, 40);
+		var inp = utils.properCaps(item.value, $("#songSearch").val().toLowerCase());
+		item.value = utils.shorten(item.value, 40);
 		var newTitle = item.value.replace(inp, resultTemplate.replace('%s', inp));
 
 	    return $("<li class='song-panel'></li>")
@@ -191,20 +190,20 @@ function initAutocomplete(source){
 	};
 }
 
-function shorten(str, maxLength){
-	return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
-}
+// function shorten(str, maxLength){
+// 	return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
+// }
 
-function properCaps(song, inp){
-	return song.substr(song.toLowerCase().indexOf(inp), inp.length)
-}
+// function properCaps(song, inp){
+// 	return song.substr(song.toLowerCase().indexOf(inp), inp.length);
+// }
 
-function hashSong(song, artist){
-	return (song + "-" + artist).split(' ').join('');
-}
+// function hashSong(song, artist){
+// 	return (song + "-" + artist).split(' ').join('');
+// }
 
-function spellKey(key){
-	return key.slice(0, -1) + (key[key.length-1] == key[key.length-1].toLowerCase() ? " minor" : " Major");
-}
+// function spellKey(key){
+// 	return key.slice(0, -1) + (key[key.length-1] == key[key.length-1].toLowerCase() ? " minor" : " Major");
+// }
 
 
