@@ -10,6 +10,7 @@ dark gray - #808080
 body {
 	font-family: 'Oswald', sans-serif;
 	background-color: #eafbfb;
+	/*background-color: black;*/
 	margin: 0 0 0 0 ;
 	letter-spacing: 0.3px;
 }
@@ -36,7 +37,6 @@ body {
 	letter-spacing: .5px;
 	font-size: 30px;
 	color: #808080;
-	/*margin-left: 20px;*/
 	font-weight: 300;
 	display: inline-block;
 
@@ -45,25 +45,22 @@ body {
 	padding-right: 10px;
 	padding-left: 15px;
 	color: white;
-	/*padding-top: 10px;*/
 }
 
 #song-key {
     display: inline-block;
-
     float: right;
     color: white;
     padding-left: 10px;
     padding-right: 15px;
-    /*margin-right: 10px;*/
-    transform: translate(0, -130px);
+    transform: translate(0, -120px);
     font-size: 50px;
     background-color: #76C51F;
 
 }
 
 footer {
-	position: absolute;
+	position: relative;
 	bottom: 0;
 	font-size: 12px;
 	padding-bottom: 5px;
@@ -73,7 +70,7 @@ footer {
 }
 
 #back {
-	position: absolute;
+	position: relative;
 	margin-left: 20px;
 	margin-top: 10px;
 	color: #808080;
@@ -84,25 +81,17 @@ iframe {
 }
 
 #iframe-wrapper {
-	top: 45px;
-	right: 10px;
-	position: absolute;
+	position: relative;
 	width: 100%;
+}
+
+#iframe-container {
+	width: 560px;
+	height: 315px;
 	margin: 0 auto;
-	text-align: center;
-	/*z-index: -999;*/
 }
 
 /* ------ RECOMMENDATIONS SECTION ----- */
-
-
-#rec-section {
-	width: 100vw;
-	height: 325px;
-	position: absolute;
-	bottom: 30px;
-	padding-left: 10px;
-}
 
 .song-wrapper {
 	width: 33vw;
@@ -176,8 +165,7 @@ iframe {
 #rec-section {
 	width: 100vw;
 	height: 325px;
-	position: absolute;
-	bottom: 30px;
+	position: relative;
 	padding-left: 10px;
 }
 
@@ -185,7 +173,6 @@ iframe {
 
 #toolbar {
 	width: 100%;
-	transform: translate(0, 200px);
 }
 
 
@@ -225,7 +212,6 @@ iframe {
 	margin: 0 auto;
 	text-align: center;
 	line-height: 45px;
-	/*transform: translate(0, -2px);*/
 	font-size: 16px;
 	outline:none; 
 }
@@ -252,14 +238,13 @@ select {
 	box-shadow: 0px 2px 5px #ccc;
 	transition: .1s ease-out;
 	display: inline-block;
-	position: absolute;
+	position: relative;
 	border-radius: 5px;
-	/*transform: translate(165px, 0);*/
 }
 
 #download-song {
 	font-size: 16px;
-	right: 185px;
+	float: right;
 }
 
 #download-instrumental {
@@ -267,6 +252,7 @@ select {
 	padding-left: 5px;
 	padding-right: 5px;
 	right: 10px;
+	float: right;
 }
 
 .download:hover {

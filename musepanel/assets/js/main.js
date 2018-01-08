@@ -1,5 +1,17 @@
-// Global Vars
+// Initialize Firebase
+var config = {
+	apiKey: "AIzaSyBvKsqUnBdWiH2BEhalq1m4gupvEWfV1ak",
+	authDomain: "musepanel-181904.firebaseapp.com",
+	databaseURL: "https://musepanel-181904.firebaseio.com",
+	projectId: "musepanel-181904",
+	storageBucket: "",
+	messagingSenderId: "199451268657"
+};
+firebase.initializeApp(config);
 
+var database = firebase.database();
+
+// Global Vars
 var songTable = {};
 var keyTable = {};
 var keyToRank = {
@@ -17,51 +29,106 @@ var keyToRank = {
 	"B": 5.5
 }
 
+var source = [];
+
 $(document).ready(function(){
-	$.getJSON("http://spreadsheets.google.com/feeds/list/19jOfDa3ZK9DOsowIwtMc0j9FjjqFx4VVaGSdseRKI6s/od6/public/values?alt=json", function(data) {
 
- 		var source = [];
- 		data.feed.entry.map(function(obj){
- 			if (obj["gsx$song"]["$t"].length > 0 && obj["gsx$key"]["$t"].length > 0 && obj["gsx$artist"]["$t"].length > 0){
-	 			var song = obj["gsx$song"]["$t"];
-	 			var key = spellKey(obj["gsx$key"]["$t"]);
-	 			var artist = obj["gsx$artist"]["$t"];
-	 			var note = key.split(" ")[0];
-	 			var keyType = key.split(" ")[1];
-	 			var rank = keyToRank[note];
+	retrieveFirebaseData();
 
-	 			source.push({
-	 				value: song, 
-	 				artist: artist,
-	 				key: key
-	 			});
+	function retrieveFirebaseData(){
+		firebase.database().ref('songdb/').once('value').then(function(snapshot) {
+			var allSongs = snapshot.val();
 
-	 			var hash = hashSong(song, artist);
+			if (localStorage.getItem("songTable")){
+				songTable = JSON.parse(localStorage.getItem("songTable"));
+				keyTable = JSON.parse(localStorage.getItem("keyTable"));
+			}
 
-	 			songTable[hash] = {
-	 				title: song, 
-	 				artist: artist,
-	 				key: key,
-	 				note: note,
-	 				keyType: keyType,
-	 				rank: rank
-	 			}
+			for (var key in allSongs){
+				initDataObjects(allSongs[key].song, allSongs[key].artist, allSongs[key].key, allSongs[key].note, allSongs[key].keyType);
+			}
 
-	 			if (!(key in keyTable)){
-	 				keyTable[key] = [];
-	 			}
-	 			keyTable[key].push(hash);
+			localStorage.setItem("songTable", JSON.stringify(songTable));
+			localStorage.setItem("keyTable",  JSON.stringify(keyTable));
 
-	 			localStorage.setItem("songTable", JSON.stringify(songTable));
-	 			localStorage.setItem("keyTable",  JSON.stringify(keyTable));
-	 		}
- 		})
+			initAutocomplete(source);
+		});
+	}
 
- 		console.log(keyTable);
- 		console.log(songTable);
 
- 		initAutocomplete(source);
-	});
+	function initDataObjects(song, artist, key, note, keyType){
+		var rank = keyToRank[note];
+
+		source.push({
+			value: song, 
+			artist: artist,
+			key: key
+		});
+
+		var hash = hashSong(song, artist);
+
+		songTable[hash] = {
+			title: song, 
+			artist: artist,
+			key: key,
+			note: note,
+			keyType: keyType,
+			rank: rank
+		}
+
+		if (!(key in keyTable)){
+			keyTable[key] = [];
+		}
+
+		keyTable[key].push(hash);
+
+	}
+
+	$("#add-song-button").click(function(){
+
+		var song = $("#song-input").val();
+		var artist = $("#artist-input").val();
+		
+		if (song.length == 0 || artist.length == 0){
+			$(".modal").effect("shake");
+			$("#missing-fields").show();
+		} else {
+			$("#cancel-modal").hide();
+			$("#missing-fields").hide();
+			$("#add-song-button").text("Adding Song...");
+
+			var hash = hashSong(song, artist);
+
+			var key = $("#key-select").val() + " " + $("#interval-select").val();
+			var note = $("#key-select").val();
+			var keyType = $("#interval-select").val();
+
+			//add new song to firebase
+			firebase.database().ref('songdb/' + hash).once('value').then(function(snapshot) {
+				$(".modal-body").hide(400);
+				$(".modal-footer").hide(400);
+				var url = "song?title=" + song + "&artist=" + artist;
+
+				if (snapshot.val() == null){
+					firebase.database().ref('songdb/' + hash).set({
+				     	song: song,
+				     	key: key,
+				     	artist: artist,
+				     	note: note,
+				     	keyType: keyType
+				    });
+
+					initDataObjects(song, artist, key, note, keyType);
+					initAutocomplete(source);
+
+					$("#addSongModalTitle").html('Song Added! <a href="' + url + '"> Take me there </a>');
+
+				} else {
+					$("#addSongModalTitle").html('Song already exists! <a href="' + url + '"> Take me there </a>');
+				}
+			});
+		}
+	})
 
 	function initAutocomplete(source){
 		$("#songSearch").autocomplete({
@@ -85,7 +152,6 @@ $(document).ready(function(){
 			var inp = properCaps(item.value, $("#songSearch").val().toLowerCase());
 			item.value = shorten(item.value, 40);
 			var newTitle = item.value.replace(inp, resultTemplate.replace('%s', inp));
-			// console.log(newTitle);
 
 		    return $("<li class='song-panel'></li>")
 		       		.data("ui-autocomplete-item", item)
