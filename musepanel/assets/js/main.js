@@ -60,8 +60,6 @@ $(document).ready(function(){
 
 			//add new song to firebase
 			database.ref('songdb/' + hash).once('value').then(function(snapshot) {
-				$(".modal-body").hide(400);
-				$(".modal-footer").hide(400);
 				var url = "song?title=" + song + "&artist=" + artist;
 
 				if (snapshot.val() == null){
@@ -71,13 +69,19 @@ $(document).ready(function(){
 				     	artist: artist,
 				     	note: note,
 				     	keyType: keyType
+				    }, function(error){
+				    	if (error){
+				    		console.log(error);
+				    	} else {
+				    		$(".modal-body").hide(400);
+				    		$(".modal-footer").hide(400);
+
+				    		initDataObjects(song, artist, key, note, keyType);
+				    		initAutocomplete(source);
+
+				    		$("#addSongModalTitle").html('Song Added! <a href="' + url + '"> Take me there </a>');
+				    	}
 				    });
-
-					initDataObjects(song, artist, key, note, keyType);
-					initAutocomplete(source);
-
-					$("#addSongModalTitle").html('Song Added! <a href="' + url + '"> Take me there </a>');
-
 				} else {
 					$("#addSongModalTitle").html('Song already exists! <a href="' + url + '"> Take me there </a>');
 				}
