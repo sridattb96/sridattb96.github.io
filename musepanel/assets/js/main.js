@@ -32,6 +32,7 @@ var keyToRank = {
 var source = [];
 
 $(document).ready(function(){
+	// lowercaseAllKeys();
 	retrieveFirebaseData();
 
 	// event handlers
@@ -48,9 +49,6 @@ $(document).ready(function(){
 			$(".modal").effect("shake");
 			$("#missing-fields").show();
 		} else {
-			$("#cancel-modal").hide();
-			$("#missing-fields").hide();
-			$("#add-song-button").text("Adding Song...");
 
 			var hash = utils.hashSong(song, artist);
 
@@ -60,6 +58,9 @@ $(document).ready(function(){
 
 			//add new song to firebase
 			database.ref('songdb/' + hash).once('value').then(function(snapshot) {
+				$("#cancel-modal").hide();
+				$("#missing-fields").hide();
+				$("#add-song-button").text("Adding Song...");
 				var url = "song?title=" + song + "&artist=" + artist;
 
 				if (snapshot.val() == null){
@@ -71,7 +72,7 @@ $(document).ready(function(){
 				     	keyType: keyType
 				    }, function(error){
 				    	if (error){
-				    		console.log(error);
+				    		alert(error);
 				    	} else {
 				    		$(".modal-body").hide(400);
 				    		$(".modal-footer").hide(400);
@@ -83,6 +84,9 @@ $(document).ready(function(){
 				    	}
 				    });
 				} else {
+					$(".modal-body").hide(400);
+					$(".modal-footer").hide(400);
+					
 					$("#addSongModalTitle").html('Song already exists! <a href="' + url + '"> Take me there </a>');
 				}
 			});
@@ -100,17 +104,9 @@ function retrieveFirebaseData(){
 	database.ref('songdb/').once('value').then(function(snapshot) {
 		var allSongs = snapshot.val();
 
-		if (localStorage.getItem("songTable")){
-			songTable = JSON.parse(localStorage.getItem("songTable"));
-			keyTable = JSON.parse(localStorage.getItem("keyTable"));
-		}
-
 		for (var key in allSongs){
 			initDataObjects(allSongs[key].song, allSongs[key].artist, allSongs[key].key, allSongs[key].note, allSongs[key].keyType);
 		}
-
-		localStorage.setItem("songTable", JSON.stringify(songTable));
-		localStorage.setItem("keyTable",  JSON.stringify(keyTable));
 
 		initAutocomplete(source);
 	});
@@ -193,21 +189,4 @@ function initAutocomplete(source){
 	           .appendTo(ul);
 	};
 }
-
-// function shorten(str, maxLength){
-// 	return str.length <= maxLength ? str : str.substr(0, maxLength) + "...";
-// }
-
-// function properCaps(song, inp){
-// 	return song.substr(song.toLowerCase().indexOf(inp), inp.length);
-// }
-
-// function hashSong(song, artist){
-// 	return (song + "-" + artist).split(' ').join('');
-// }
-
-// function spellKey(key){
-// 	return key.slice(0, -1) + (key[key.length-1] == key[key.length-1].toLowerCase() ? " minor" : " Major");
-// }
-
 

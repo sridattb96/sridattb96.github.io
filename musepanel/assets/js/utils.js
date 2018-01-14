@@ -9,7 +9,7 @@ utils.properCaps = function(song, inp){
 }
 
 utils.hashSong = function(song, artist){
-	return (song + "-" + artist).split(' ').join('');
+	return (song + "-" + artist).split(' ').join('').toLowerCase();
 }
 
 // utils.spellKey = function(key){

@@ -68,25 +68,18 @@ function recordSongHit(song, artist) {
 $(document).ready(function(){
 	$("#back").attr("href", window.location.origin + "/musepanel/");
 
-	if (localStorage.getItem("songTable")){
-		songTable = JSON.parse(localStorage.getItem("songTable"));
-		keyTable = JSON.parse(localStorage.getItem("keyTable"));
+	database.ref('songdb/').once('value').then(function(snapshot) {
+		var allSongs = snapshot.val();
+
+		for (var key in allSongs){
+			initDataObjects(allSongs[key].song, allSongs[key].artist, allSongs[key].key, allSongs[key].note, allSongs[key].keyType);
+		}
+
+		// localStorage.setItem("songTable", JSON.stringify(songTable));
+		// localStorage.setItem("keyTable",  JSON.stringify(keyTable));
+
 		initPage();
-		pageLoaded = true;
-	} else {
-		database.ref('songdb/').once('value').then(function(snapshot) {
-			var allSongs = snapshot.val();
-
-			for (var key in allSongs){
-				initDataObjects(allSongs[key].song, allSongs[key].artist, allSongs[key].key, allSongs[key].note, allSongs[key].keyType);
-			}
-
-			localStorage.setItem("songTable", JSON.stringify(songTable));
-			localStorage.setItem("keyTable",  JSON.stringify(keyTable));
-
-			initPage();
-		});
-	}
+	});
 
 	// event handlers
 	$("#refresh").on('click', function(){
@@ -121,9 +114,6 @@ function initDataObjects(song, artist, key, note, keyType){
 
 	if (!(key in keyTable)) keyTable[key] = [];
 	keyTable[key].push(hash);
-
-	localStorage.setItem("songTable", JSON.stringify(songTable));
-	localStorage.setItem("keyTable",  JSON.stringify(keyTable));
 }
 
 function openLink(mp3Type){
@@ -145,7 +135,7 @@ function openLink(mp3Type){
 function initPage(){
 	if (!pageLoaded){
 		songObj = getSongObj(); // get from param
-
+		console.log(songObj);
 		recordSongHit(songObj["title"], songObj["artist"]); // record view 
 
 		document.title = "MusePanel - " + songObj["title"];
@@ -300,6 +290,8 @@ function getSongObj(){
 	var search = location.search.substring(1);
 	var params = search?JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
 	                 function(key, value) { return key===""?value:decodeURIComponent(value) }):{}
+	console.log(utils.hashSong(params["title"], params["artist"]));
+	console.log(songTable);
 	return songTable[utils.hashSong(params["title"], params["artist"])];
 }
 
